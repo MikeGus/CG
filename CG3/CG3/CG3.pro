@@ -26,4 +26,5 @@ HEADERS  += mainwindow.h \
     sign.h \
     parts.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    mainwindow.ui
