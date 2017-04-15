@@ -8,7 +8,7 @@ void draw(QGraphicsScene& scene, DrawData& data)
 {
     switch (data.alg) {
     case Default:
-        draw_default(scene, data);
+        draw_default(data);
         break;
 
     case MiddlePoint:
@@ -27,9 +27,10 @@ void draw(QGraphicsScene& scene, DrawData& data)
         draw_bresenham(scene, data);
         break;
     }
+    scene.addPixmap(*(data.map));
 }
 
-void draw_default(QGraphicsScene& scene, DrawData& data)
+void draw_default(DrawData& data)
 {
     Point start = data.start;
     Point end = data.end;
@@ -37,7 +38,7 @@ void draw_default(QGraphicsScene& scene, DrawData& data)
     double a = fabs(start.x - end.x);
     double b = fabs(start.y - end.y);
 
-    scene.addEllipse(data.start.x, data.start.y, a, -b, data.pen);
+    data.painter->drawEllipse(data.start.x, data.start.y, a, -b);
 }
 
 void draw_middle_point(QGraphicsScene& scene, DrawData& data)

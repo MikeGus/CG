@@ -2,16 +2,8 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1000</width>
-    <height>600</height>
-   </rect>
-  </property>
   <property name="windowTitle">
-   <string>Лабораторная 3</string>
+   <string>Лабораторная 4</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,0">
@@ -19,8 +11,14 @@
      <widget class="QGraphicsView" name="graphicsView">
       <property name="minimumSize">
        <size>
-        <width>300</width>
-        <height>300</height>
+        <width>500</width>
+        <height>500</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>500</width>
+        <height>500</height>
        </size>
       </property>
      </widget>
@@ -51,7 +49,7 @@
         <item row="0" column="1">
          <widget class="QLineEdit" name="lineEdit">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -93,7 +91,7 @@
         <item row="0" column="3">
          <widget class="QLineEdit" name="lineEdit_3">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -178,7 +176,7 @@
         <item row="0" column="1">
          <widget class="QLineEdit" name="lineEdit_5">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -192,7 +190,7 @@
         <item row="0" column="3">
          <widget class="QLineEdit" name="lineEdit_6">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -297,7 +295,7 @@
         <item row="0" column="1" colspan="2">
          <widget class="QLineEdit" name="lineEdit_11">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -311,7 +309,7 @@
         <item row="0" column="4">
          <widget class="QLineEdit" name="lineEdit_8">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -458,7 +456,7 @@
         <item row="0" column="1">
          <widget class="QLineEdit" name="lineEdit_14">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -486,7 +484,7 @@
         <item row="0" column="3">
          <widget class="QLineEdit" name="lineEdit_15">
           <property name="text">
-           <string>0.0</string>
+           <string>250</string>
           </property>
          </widget>
         </item>
@@ -599,7 +597,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
+     <width>928</width>
      <height>21</height>
     </rect>
    </property>

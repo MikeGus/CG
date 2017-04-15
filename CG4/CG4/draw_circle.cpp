@@ -26,6 +26,7 @@ void draw_circle(QGraphicsScene& scene, DrawData& data)
         draw_bresenham_circle(scene, data);
         break;
     }
+    scene.addPixmap((*data.map));
 }
 
 void draw_default_circle(QGraphicsScene& scene, DrawData& data)
@@ -36,7 +37,7 @@ void draw_default_circle(QGraphicsScene& scene, DrawData& data)
     double a = fabs(start.x - end.x);
     double b = fabs(start.y - end.y);
 
-    scene.addEllipse(data.start.x, data.start.y, a, -b, data.pen);
+    data.painter->drawEllipse(data.start.x, data.start.y, a, -b);
 }
 
 void draw_middle_point_circle(QGraphicsScene& scene, DrawData& data)

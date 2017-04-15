@@ -16,9 +16,9 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     draw.cpp \
     parts.cpp \
-    point.cpp \
     draw_circle.cpp \
-    draw_oct.cpp
+    draw_oct.cpp \
+    draw_pixel.cpp
 
 HEADERS  += mainwindow.h \
     algorithms.h \
@@ -28,6 +28,7 @@ HEADERS  += mainwindow.h \
     point.h \
     sign.h \
     draw_circle.h \
-    draw_oct.h
+    draw_oct.h \
+    draw_pixel.h
 
 FORMS    += mainwindow.ui

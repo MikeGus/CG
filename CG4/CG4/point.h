@@ -9,6 +9,4 @@ struct Point {
     double y;
 };
 
-void draw_pixel(QGraphicsScene& scene, Point& point, QPen& pen);
-
 #endif // POINT_H

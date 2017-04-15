@@ -114,7 +114,6 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1000, 600);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -123,7 +122,8 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         graphicsView = new QGraphicsView(centralWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setMinimumSize(QSize(300, 300));
+        graphicsView->setMinimumSize(QSize(500, 500));
+        graphicsView->setMaximumSize(QSize(500, 500));
 
         horizontalLayout->addWidget(graphicsView);
 
@@ -469,7 +469,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1000, 21));
+        menuBar->setGeometry(QRect(0, 0, 928, 21));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -488,14 +488,14 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "\320\233\320\260\320\261\320\276\321\200\320\260\321\202\320\276\321\200\320\275\320\260\321\217 3", 0));
-        lineEdit->setText(QApplication::translate("MainWindow", "0.0", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "\320\233\320\260\320\261\320\276\321\200\320\260\321\202\320\276\321\200\320\275\320\260\321\217 4", 0));
+        lineEdit->setText(QApplication::translate("MainWindow", "250", 0));
         label_3->setText(QApplication::translate("MainWindow", "Y\321\206", 0));
         lineEdit_4->setText(QApplication::translate("MainWindow", "0.0", 0));
         label->setText(QApplication::translate("MainWindow", "\320\220\320\273\320\263\320\276\321\200\320\270\321\202\320\274", 0));
         pushButton_3->setText(QApplication::translate("MainWindow", "\320\246\320\262\320\265\321\202", 0));
         pushButton_2->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214", 0));
-        lineEdit_3->setText(QApplication::translate("MainWindow", "0.0", 0));
+        lineEdit_3->setText(QApplication::translate("MainWindow", "250", 0));
         label_4->setText(QApplication::translate("MainWindow", "A", 0));
         lineEdit_2->setText(QApplication::translate("MainWindow", "0.0", 0));
         label_5->setText(QApplication::translate("MainWindow", "B", 0));
@@ -511,9 +511,9 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "\320\245\321\206", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "\320\255\320\273\320\273\320\270\320\277\321\201", 0));
         label_6->setText(QApplication::translate("MainWindow", "X\321\206.", 0));
-        lineEdit_5->setText(QApplication::translate("MainWindow", "0.0", 0));
+        lineEdit_5->setText(QApplication::translate("MainWindow", "250", 0));
         label_7->setText(QApplication::translate("MainWindow", "Y\321\206.", 0));
-        lineEdit_6->setText(QApplication::translate("MainWindow", "0.0", 0));
+        lineEdit_6->setText(QApplication::translate("MainWindow", "250", 0));
         label_8->setText(QApplication::translate("MainWindow", "\320\240\320\260\320\264\320\270\321\203\321\201", 0));
         lineEdit_7->setText(QApplication::translate("MainWindow", "0.0", 0));
         label_10->setText(QApplication::translate("MainWindow", "\320\220\320\273\320\263\320\276\321\200\320\270\321\202\320\274", 0));
@@ -530,9 +530,9 @@ public:
         pushButton_6->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "\320\236\320\272\321\200\321\203\320\266\320\275\320\276\321\201\321\202\321\214", 0));
         label_14->setText(QApplication::translate("MainWindow", "\320\245\321\206", 0));
-        lineEdit_11->setText(QApplication::translate("MainWindow", "0.0", 0));
+        lineEdit_11->setText(QApplication::translate("MainWindow", "250", 0));
         label_12->setText(QApplication::translate("MainWindow", "Y\321\206", 0));
-        lineEdit_8->setText(QApplication::translate("MainWindow", "0.0", 0));
+        lineEdit_8->setText(QApplication::translate("MainWindow", "250", 0));
         label_11->setText(QApplication::translate("MainWindow", "A", 0));
         lineEdit_10->setText(QApplication::translate("MainWindow", "0.0", 0));
         label_9->setText(QApplication::translate("MainWindow", "B", 0));
@@ -555,11 +555,11 @@ public:
         label_21->setText(QApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MainWindow", "\320\240\320\260\320\267\320\273\320\276\320\266\320\265\320\275\320\270\320\265 (\320\255\320\273\320\273\320\270\320\277\321\201)", 0));
         label_20->setText(QApplication::translate("MainWindow", "\320\250\320\260\320\263", 0));
-        lineEdit_14->setText(QApplication::translate("MainWindow", "0.0", 0));
+        lineEdit_14->setText(QApplication::translate("MainWindow", "250", 0));
         label_17->setText(QApplication::translate("MainWindow", "Y\321\206.", 0));
         label_18->setText(QApplication::translate("MainWindow", "X\321\206.", 0));
         lineEdit_13->setText(QApplication::translate("MainWindow", "0.0", 0));
-        lineEdit_15->setText(QApplication::translate("MainWindow", "0.0", 0));
+        lineEdit_15->setText(QApplication::translate("MainWindow", "250", 0));
         label_19->setText(QApplication::translate("MainWindow", "\320\240\320\260\320\264\320\270\321\203\321\201", 0));
         label_16->setText(QApplication::translate("MainWindow", "\320\220\320\273\320\263\320\276\321\200\320\270\321\202\320\274", 0));
         comboBox_4->clear();

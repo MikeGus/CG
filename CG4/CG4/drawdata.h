@@ -4,12 +4,14 @@
 #include "algorithms.h"
 #include "point.h"
 #include <QPen>
+#include <QPainter>
 
 struct DrawData {
     Algorithms alg;
     Point start;
     Point end;
-    QPen pen;
+    QPainter* painter;
+    QPixmap* map;
 };
 
 #endif // DRAWDATA_H

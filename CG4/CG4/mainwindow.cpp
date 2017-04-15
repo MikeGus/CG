@@ -9,45 +9,85 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     scene = new QGraphicsScene;
-    QRectF sizes(-150, -150, 300, 300);
+    QRectF sizes(0, 0, 500, 500);
     scene->setSceneRect(sizes);
+    data.map = new QPixmap(500,500);
+    data.map->fill();
+    data.painter = new QPainter(data.map);
+
     ui->graphicsView->setScene(scene);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete map;
+    delete data.painter;
     delete scene;
 }
 
-//change color sun
+//change color
 void MainWindow::on_pushButton_4_clicked()
 {
     QColor color = QColorDialog::getColor();
-    data.pen.setColor(color);
+    QPen pen(color);
+    pen.setWidth(1);
+    data.painter->setPen(pen);
 }
 
-//change color line
 void MainWindow::on_pushButton_3_clicked()
 {
     QColor color = QColorDialog::getColor();
-    data.pen.setColor(color);
+    QPen pen(color);
+    pen.setWidth(1);
+    data.painter->setPen(pen);
 }
 
+void MainWindow::on_pushButton_10_clicked()
+{
+    QColor color = QColorDialog::getColor();
+    QPen pen(color);
+    pen.setWidth(1);
+    data.painter->setPen(pen);
+}
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    QColor color = QColorDialog::getColor();
+    QPen pen(color);
+    pen.setWidth(1);
+    data.painter->setPen(pen);
+}
 //clear scene
 void MainWindow::on_pushButton_2_clicked()
 {
     scene->clear();
+    data.map->fill();
     ui->graphicsView->update();
 }
 
 void MainWindow::on_pushButton_6_clicked()
 {
     scene->clear();
+    data.map->fill();
     ui->graphicsView->update();
 }
 
-//draw line
+void MainWindow::on_pushButton_8_clicked()
+{
+    scene->clear();
+    data.map->fill();
+    ui->graphicsView->update();
+}
+
+void MainWindow::on_pushButton_12_clicked()
+{
+    scene->clear();
+    data.map->fill();
+    ui->graphicsView->update();
+}
+
+//draw ellipse
 void MainWindow::on_pushButton_clicked()
 {
     data.alg = (Algorithms) ui->comboBox->currentIndex();
@@ -67,7 +107,6 @@ void MainWindow::on_pushButton_clicked()
 
     data.start = start;
     data.end = end;
-    data.pen.setWidth(1);
 
     draw(*scene, data);
 
@@ -100,29 +139,6 @@ void MainWindow::on_pushButton_5_clicked()
     ui->graphicsView->update();
 }
 
-void MainWindow::on_pushButton_8_clicked()
-{
-    scene->clear();
-    ui->graphicsView->update();
-}
-
-void MainWindow::on_pushButton_12_clicked()
-{
-    scene->clear();
-    ui->graphicsView->update();
-}
-
-void MainWindow::on_pushButton_10_clicked()
-{
-    QColor color = QColorDialog::getColor();
-    data.pen.setColor(color);
-}
-
-void MainWindow::on_pushButton_7_clicked()
-{
-    QColor color = QColorDialog::getColor();
-    data.pen.setColor(color);
-}
 
 void MainWindow::on_pushButton_9_clicked()
 {
@@ -149,7 +165,6 @@ void MainWindow::on_pushButton_9_clicked()
 
         data.start = start;
         data.end = end;
-        data.pen.setWidth(1);
 
         draw(*scene, data);
         a += step_a;
@@ -161,7 +176,7 @@ void MainWindow::on_pushButton_9_clicked()
 
 void MainWindow::on_pushButton_11_clicked()
 {
-    data.alg = (Algorithms) ui->comboBox_3->currentIndex();
+    data.alg = (Algorithms) ui->comboBox_4->currentIndex();
     Point start;
     Point end;
 
@@ -181,7 +196,6 @@ void MainWindow::on_pushButton_11_clicked()
 
         data.start = start;
         data.end = end;
-        data.pen.setWidth(1);
 
         draw(*scene, data);
         r += step;

@@ -12,7 +12,7 @@
 #include <QGraphicsEllipseItem>
 
 void draw(QGraphicsScene& scene, DrawData& data);
-void draw_default(QGraphicsScene& scene, DrawData& data);
+void draw_default(DrawData& data);
 void draw_middle_point(QGraphicsScene& scene, DrawData& data);
 void draw_canonic(QGraphicsScene& scene, DrawData& data);
 void draw_parametric(QGraphicsScene& scene, DrawData& data);

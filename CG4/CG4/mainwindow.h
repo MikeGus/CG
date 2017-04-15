@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QColor>
+#include <QPixmap>
 #include "drawdata.h"
 #include "draw.h"
 #include "draw_circle.h"
@@ -22,6 +23,7 @@ public:
     ~MainWindow();
     DrawData data;
     QGraphicsScene* scene;
+    QPixmap* map;
 
 private slots:
     void on_pushButton_4_clicked();
