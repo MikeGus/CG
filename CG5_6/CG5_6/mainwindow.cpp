@@ -2,8 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 
-#include <windows.h>
-
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -128,16 +126,12 @@ void MainWindow::on_btnRastr_clicked()
         data.painter->drawLine(data.edges[0], data.edges[data.edges.size() - 1]);
     }
 
-    rast_fill(data, scene);
-//    fill_edge(data.edges[0], data.edges[1], data.partition, *data.image, *data.painter, scene);
-//    fill_edge(data.edges[1], data.edges[2], data.partition, *data.image, *data.painter, scene);
-//    fill_edge(data.edges[2], data.edges[3], data.partition, *data.image, *data.painter, scene);
-//    if (data.edges.size() > 0) {
-//        for (unsigned i = 0; i < data.edges.size() - 1; ++i) {
-//            fill_edge(data.edges[i], data.edges[i + 1], data.partition, *data.image, *data.painter, scene);
-//            scene->addPixmap(*data.image);
-//        }
-//        fill_edge(data.edges[0], data.edges[data.edges.size() - 1], data.partition, *data.image, *data.painter, scene);
-//    }
     scene->addPixmap(*data.image);
+    QApplication::processEvents();
+
+    bool timer = ui->checkDelay->isChecked();
+    rast_fill(data, scene, timer);
+
+    scene->addPixmap(*data.image);
+    QApplication::processEvents();
 }

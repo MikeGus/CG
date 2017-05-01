@@ -1,13 +1,13 @@
 #include "rastr_fill.h"
 #include <QDebug>
 
-void rast_fill(DrawData& data, QGraphicsScene* scene)
+void rast_fill(DrawData& data, QGraphicsScene* scene, bool timer)
 {
     if (data.edges.size() > 0) {
         for (unsigned i = 0; i < data.edges.size() - 1; ++i) {
-            fill_edge(data.edges[i], data.edges[i + 1], data.partition, *data.image, *data.painter, scene);
+            fill_edge(data.edges[i], data.edges[i + 1], data.partition, *data.image, *data.painter, scene, timer);
         }
-        fill_edge(data.edges[0], data.edges[data.edges.size() - 1], data.partition, *data.image, *data.painter, scene);
+        fill_edge(data.edges[0], data.edges[data.edges.size() - 1], data.partition, *data.image, *data.painter, scene, timer);
     }
 }
 
@@ -20,7 +20,6 @@ void fill_line(QPoint& pivot, qint32 partition, QPixmap& pixmap, QPainter& paint
     if (pixmap.width() < partition) {
         x2 = pixmap.width();
     }
-
     QImage img = pixmap.toImage();
     QColor color;
 
@@ -46,7 +45,8 @@ void fill_line(QPoint& pivot, qint32 partition, QPixmap& pixmap, QPainter& paint
     }
 }
 
-void fill_edge(QPoint& start, QPoint& end, qint32 partition, QPixmap& pixmap, QPainter& painter, QGraphicsScene* scene)
+void fill_edge(QPoint& start, QPoint& end, qint32 partition, QPixmap& pixmap, QPainter& painter,\
+               QGraphicsScene* scene, bool timer)
 {
     if (start.y() == end.y()) {
         return;
@@ -72,10 +72,17 @@ void fill_edge(QPoint& start, QPoint& end, qint32 partition, QPixmap& pixmap, QP
     }
 
     QPoint point;
-    for (int y = y1; y != y2; y -= 1) {
+    int counter = 0;
+    for (int y = y1; y != y2; y -= 1, counter++) {
         int x = !sx ? x1 : (int) (x1 + (double) (y - y1) / dy * dx + 0.5);
         point.setX(x);
         point.setY(y);
         fill_line(point, partition, pixmap, painter);
+        if (!(counter % 5) && timer) {
+            scene->addPixmap(pixmap);
+            QApplication::processEvents();
+        }
     }
+
+
 }

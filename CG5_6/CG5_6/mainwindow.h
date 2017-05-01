@@ -6,6 +6,7 @@
 #include "draw_data.h"
 #include "draw_line.h"
 #include "rastr_fill.h"
+#include <QApplication>
 
 namespace Ui {
 class MainWindow;
