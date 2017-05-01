@@ -23,6 +23,7 @@ HEADERS  += mainwindow.h \
     rastr_fill.h \
     draw_line.h \
     draw_pixel.h \
-    sign.h
+    sign.h \
+    graphicsview.h
 
 FORMS    += mainwindow.ui

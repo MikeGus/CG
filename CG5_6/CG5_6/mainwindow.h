@@ -7,6 +7,7 @@
 #include "draw_line.h"
 #include "rastr_fill.h"
 #include <QApplication>
+#include <QMouseEvent>
 
 namespace Ui {
 class MainWindow;
@@ -31,6 +32,8 @@ private slots:
     void showEvent(QShowEvent *event);
 
     void on_btnRastr_clicked();
+
+    void mousePressEvent(QMouseEvent *e);
 
 private:
     Ui::MainWindow *ui;

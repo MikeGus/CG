@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setMouseTracking(true);
 }
 
 void MainWindow::showEvent(QShowEvent *event) {
@@ -134,4 +135,29 @@ void MainWindow::on_btnRastr_clicked()
 
     scene->addPixmap(*data.image);
     QApplication::processEvents();
+}
+
+
+void MainWindow::mousePressEvent(QMouseEvent *e)
+{
+    data.painter->setPen("black");
+    QPoint point = ui->graphicsView->mapFromParent(e->pos());
+    point.setY(point.y() - 15);
+    if((e->modifiers() & Qt::ShiftModifier) && !data.edges.empty()) {
+        int dx = abs(data.edges[data.edges.size() - 1].x() - point.x());
+        int dy = abs(data.edges[data.edges.size() - 1].y() - point.y());
+        if (dy > dx) {
+            point.setX(data.edges[data.edges.size()- 1].x());
+        }
+        else {
+            point.setY(data.edges[data.edges.size()- 1].y());
+        }
+    }
+
+    if (!data.edges.empty()) {
+         data.painter->drawLine(data.edges[data.edges.size() - 1], point);
+         scene->addPixmap(*data.image);
+    }
+
+    data.edges.push_back(point);
 }
