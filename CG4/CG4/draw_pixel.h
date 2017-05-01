@@ -4,6 +4,6 @@
 #include "point.h"
 #include "drawdata.h"
 
-void draw_pixel(Point& point, DrawData& data);
+void draw_pixel(Point& point, QPainter& painter);
 
 #endif // DRAW_PIXEL_H

@@ -70,7 +70,7 @@ void draw_middle_point(QGraphicsScene& scene, DrawData& data)
 
     draw_oct(scene, center, x, y, data);
 
-    // first area
+    // верхняя часть
     p = (int)(b2 - (a2 * b) + (a / 4) + 0.5);
     while(px <= py) {
         x++;
@@ -86,7 +86,7 @@ void draw_middle_point(QGraphicsScene& scene, DrawData& data)
         draw_oct(scene, center, x, y, data);
     }
 
-    // second area
+    // нижняя часть
     p = (int)(b2 * (x + 0.5) * (x + 0.5) + a2 * (y - 1) * (y - 1) - a2 * b2 + 0.5);
     while(y >= 0) {
         y--;
@@ -153,11 +153,13 @@ void draw_parametric(QGraphicsScene& scene, DrawData& data)
     int y1 = round(start.y);
     int y2 = round(end.y);
 
+
     center.x = (x1 + x2) / 2.0;
     center.y = (y1 + y2) / 2.0;
 
     double a = fabs(start.x - end.x) / 2.0;
     double b = fabs(start.y - end.y) / 2.0;
+    draw_oct(scene, center, 0, b, data);
 
     double t = 0;
     double dt = 1 / std::max(a, b);
@@ -196,7 +198,7 @@ void draw_bresenham(QGraphicsScene& scene, DrawData& data)
     double beta = 0;
     while (y >= 0) {
         draw_oct(scene, center, x, y, data);
-        if (d < 0) { // out of ellipse
+        if (d < 0) { // вне эллипса
             beta = 2 * d + 2 * a2 * y - a2;
             if (beta <= 0) {
                 x++;
@@ -208,7 +210,7 @@ void draw_bresenham(QGraphicsScene& scene, DrawData& data)
                 d += 2 * b2 * x - 2 * a2 * y + a2 + b2;
             }
         }
-        else if (d > 0) { // inside ellipse
+        else if (d > 0) { // внутри эллипса
             beta = 2 * d - 2 * b2 * x - b2;
             if (beta > 0) {
                 y--;
@@ -220,7 +222,7 @@ void draw_bresenham(QGraphicsScene& scene, DrawData& data)
                 d += 2 * b2 * x - 2 * a2 * y + a2 + b2;
             }
         }
-        else if (d == 0) { // on ellipse
+        else if (d == 0) { // на эллипсе
             x++;
             y--;
             d += 2 * b2 * x - 2 * a2 * y + a2 + b2;
