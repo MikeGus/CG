@@ -33,7 +33,7 @@ void draw_line(QPoint& start, QPoint& end, QPainter& painter)
 
     QPoint draw_point;
 
-    for (int i = 1; i <= dx; ++i) {
+    for (int i = 0; i <= dx; ++i) {
         draw_point.setX(x);
         draw_point.setY(y);
         draw_pixel(draw_point, painter);

@@ -129,7 +129,9 @@ void MainWindow::on_btnRastr_clicked()
     }
 
     rast_fill(data, scene);
+//    fill_edge(data.edges[0], data.edges[1], data.partition, *data.image, *data.painter, scene);
 //    fill_edge(data.edges[1], data.edges[2], data.partition, *data.image, *data.painter, scene);
+//    fill_edge(data.edges[2], data.edges[3], data.partition, *data.image, *data.painter, scene);
 //    if (data.edges.size() > 0) {
 //        for (unsigned i = 0; i < data.edges.size() - 1; ++i) {
 //            fill_edge(data.edges[i], data.edges[i + 1], data.partition, *data.image, *data.painter, scene);

@@ -17,6 +17,10 @@ void fill_line(QPoint& pivot, qint32 partition, QPixmap& pixmap, QPainter& paint
     int x1 = pivot.x();
     int x2 = partition;
 
+    if (pixmap.width() < partition) {
+        x2 = pixmap.width();
+    }
+
     QImage img = pixmap.toImage();
     QColor color;
 
@@ -44,72 +48,34 @@ void fill_line(QPoint& pivot, qint32 partition, QPixmap& pixmap, QPainter& paint
 
 void fill_edge(QPoint& start, QPoint& end, qint32 partition, QPixmap& pixmap, QPainter& painter, QGraphicsScene* scene)
 {
-    if (start.x() == end.x() && start.y() == end.y()) {
+    if (start.y() == end.y()) {
         return;
     }
 
-    int dx = end.x() - start.x();
     int dy = end.y() - start.y();
+    int dx = end.x() - start.x();
 
-    int sx = get_sign(dx);
     int sy = get_sign(dy);
+    int sx = get_sign(dx);
 
-    dx = abs(dx);
-    dy = abs(dy);
+    int y1 = start.y();
+    int y2 = end.y();
 
-    bool swap = false;
+    int x1 = start.x();
+    int x2 = end.x();
 
-    if (dx < dy) {
-        int t = dy;
-        dy = dx;
-        dx = t;
-        swap = true;
+    if (sy > 0) {
+        std::swap(x1, x2);
+        std::swap(y1, y2);
+        dy = -dy;
+        dx = -dx;
     }
 
-    int k = 2 * dy;
-    int error = k - dx;
-
-    int x = start.x();
-    int y = start.y();
-
-    QPoint draw_point;
-
-    draw_point.setX(x);
-    draw_point.setY(y);
-
-    int last = y;
-
-    fill_line(draw_point, partition, pixmap, painter);
-
-
-    for (int i = 1; i <= dx; ++i) {
-
-        if (y != last) {
-            draw_point.setX(x);
-            draw_point.setY(y);
-            fill_line(draw_point, partition, pixmap, painter);
-
-            last = y;
-        }
-
-        if (error >= 0) {
-            if (!swap) {
-                y += sy;
-            }
-            else {
-                x += sx;
-            }
-
-            error -= 2 * dx;
-        }
-        if (error < 0) {
-            if (!swap) {
-                x += sx;
-            }
-            else {
-                y += sy;
-            }
-        }
-        error += k;
+    QPoint point;
+    for (int y = y1; y != y2; y -= 1) {
+        int x = !sx ? x1 : (int) (x1 + (double) (y - y1) / dy * dx + 0.5);
+        point.setX(x);
+        point.setY(y);
+        fill_line(point, partition, pixmap, painter);
     }
 }
