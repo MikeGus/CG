@@ -76,6 +76,7 @@ void MainWindow::on_btnPartition_clicked()
     }
 
     data.painter->drawLine(data.partition, data.image->height(), data.partition, 0);
+    scene->clear();
     scene->addPixmap(*data.image);
 }
 
@@ -127,12 +128,14 @@ void MainWindow::on_btnRastr_clicked()
         data.painter->drawLine(data.edges[0], data.edges[data.edges.size() - 1]);
     }
 
+    scene->clear();
     scene->addPixmap(*data.image);
     QApplication::processEvents();
 
     bool timer = ui->checkDelay->isChecked();
     rast_fill(data, scene, timer);
 
+    scene->clear();
     scene->addPixmap(*data.image);
     QApplication::processEvents();
 }
@@ -142,7 +145,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 {
     data.painter->setPen("black");
     QPoint point = ui->graphicsView->mapFromParent(e->pos());
-    point.setY(point.y() - 15);
+    point.setY(point.y() - 13);
     if((e->modifiers() & Qt::ShiftModifier) && !data.edges.empty()) {
         int dx = abs(data.edges[data.edges.size() - 1].x() - point.x());
         int dy = abs(data.edges[data.edges.size() - 1].y() - point.y());
@@ -156,6 +159,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 
     if (!data.edges.empty()) {
          data.painter->drawLine(data.edges[data.edges.size() - 1], point);
+         scene->clear();
          scene->addPixmap(*data.image);
     }
 

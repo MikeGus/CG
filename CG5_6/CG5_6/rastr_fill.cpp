@@ -79,6 +79,7 @@ void fill_edge(QPoint& start, QPoint& end, qint32 partition, QPixmap& pixmap, QP
         point.setY(y);
         fill_line(point, partition, pixmap, painter);
         if (!(counter % 5) && timer) {
+            scene->clear();
             scene->addPixmap(pixmap);
             QApplication::processEvents();
         }
