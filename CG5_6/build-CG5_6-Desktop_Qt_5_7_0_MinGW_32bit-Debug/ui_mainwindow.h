@@ -184,8 +184,10 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">340	110</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">150	130</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">30	20</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">30	19</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">20	19</p></body></html>", 0));
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">60	20</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">60	18</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-r"
+                        "ight:0px; -qt-block-indent:0; text-indent:0px;\">20	18</p></body></html>", 0));
         label_6->setText(QApplication::translate("MainWindow", "X", 0));
         label_5->setText(QApplication::translate("MainWindow", "Y", 0));
         label->setText(QApplication::translate("MainWindow", " \320\237\320\276\320\273\320\265 \320\264\320\273\321\217 \321\202\320\276\321\207\320\275\320\276\320\263\320\276 \320\262\320\262\320\276\320\264\320\260 \320\272\320\276\320\276\321\200\320\264\320\270\320\275\320\260\321\202", 0));

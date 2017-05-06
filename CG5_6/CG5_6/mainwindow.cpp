@@ -146,22 +146,24 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
     data.painter->setPen("black");
     QPoint point = ui->graphicsView->mapFromParent(e->pos());
     point.setY(point.y() - 13);
-    if((e->modifiers() & Qt::ShiftModifier) && !data.edges.empty()) {
-        int dx = abs(data.edges[data.edges.size() - 1].x() - point.x());
-        int dy = abs(data.edges[data.edges.size() - 1].y() - point.y());
-        if (dy > dx) {
-            point.setX(data.edges[data.edges.size()- 1].x());
+    if (point.y() > 0 && point.y() < scene->height() && point.x() > 0 && point.x() < scene->width()) {
+        if((e->modifiers() & Qt::ShiftModifier) && !data.edges.empty()) {
+            int dx = abs(data.edges[data.edges.size() - 1].x() - point.x());
+            int dy = abs(data.edges[data.edges.size() - 1].y() - point.y());
+            if (dy > dx) {
+                point.setX(data.edges[data.edges.size()- 1].x());
+            }
+            else {
+                point.setY(data.edges[data.edges.size()- 1].y());
+            }
         }
-        else {
-            point.setY(data.edges[data.edges.size()- 1].y());
+
+        if (!data.edges.empty()) {
+             data.painter->drawLine(data.edges[data.edges.size() - 1], point);
+             scene->clear();
+             scene->addPixmap(*data.image);
         }
-    }
 
-    if (!data.edges.empty()) {
-         data.painter->drawLine(data.edges[data.edges.size() - 1], point);
-         scene->clear();
-         scene->addPixmap(*data.image);
+        data.edges.push_back(point);
     }
-
-    data.edges.push_back(point);
 }
