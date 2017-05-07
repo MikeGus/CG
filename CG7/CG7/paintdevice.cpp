@@ -77,6 +77,7 @@ void Paintdevice::mousePressEvent(QMouseEvent *event)
         data.painter->setPen(QColor("black"));
         data.painter->drawRect(data.rectangle);
         data.painter->setPen(bufcolor);
+
         chop(data);
     }
 

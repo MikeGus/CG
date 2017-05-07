@@ -89,32 +89,51 @@ void MainWindow::on_btnDraw_clicked()
     QPoint p2;
 
     QString str;
+    if (ui->radioLines->isChecked()) {
+        for (int i = 0; i < list.length(); ++i) {
 
-    for (int i = 0; i < list.length(); ++i) {
+            str = list[i];
 
-        str = list[i];
-
-        if (i % 4 == 0) {
-            p1.setX((int) (str.toInt() + 0.5));
+            if (i % 4 == 0) {
+                p1.setX((int) (str.toInt() + 0.5));
+            }
+            else if (i % 4 == 1) {
+                p1.setY((int) (str.toInt() + 0.5));
+            }
+            else if (i % 4 == 2) {
+                p2.setX((int) (str.toInt() + 0.5));
+            }
+            else {
+                p2.setY((int) (str.toInt() + 0.5));
+                QLine line(p1, p2);
+                scene->data.lines.push_back(line);
+            }
         }
-        else if (i % 4 == 1) {
-            p1.setY((int) (str.toInt() + 0.5));
-        }
-        else if (i % 4 == 2) {
-            p2.setX((int) (str.toInt() + 0.5));
+
+        if (scene->data.is_rect) {
+            chop(scene->data);
         }
         else {
-            p2.setY((int) (str.toInt() + 0.5));
-            QLine line(p1, p2);
-            scene->data.lines.push_back(line);
+            scene->data.painter->setPen(QColor("blue"));
+            for (auto line : scene->data.lines) {
+                scene->data.painter->drawLine(line);
+            }
         }
     }
+    else if (ui->radioRect->isChecked() && list.length() >= 4) {
+        p1.setX((int) (list[0].toInt() + 0.5));
+        p1.setY((int) (list[1].toInt() + 0.5));
+        p2.setX((int) (list[2].toInt() + 0.5));
+        p2.setY((int) (list[3].toInt() + 0.5));
+        scene->data.rectangle = QRect(std::min(p1.x(), p2.x()), std::max(p1.y(), p2.y()),\
+                                      abs(p1.x() - p2.x()), -abs(p1.y() - p2.y()));
+        scene->data.is_rect = true;
+        scene->data.final_rect = false;
 
-    for (auto line : scene->data.lines) {
-        scene->data.painter->drawLine(line);
-    }
+        scene->data.painter->setPen(QColor("black"));
+        scene->data.pixmap->fill();
+        scene->data.painter->drawRect(scene->data.rectangle);
 
-    if (scene->data.is_rect) {
         chop(scene->data);
     }
 

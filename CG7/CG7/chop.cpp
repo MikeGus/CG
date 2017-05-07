@@ -4,12 +4,10 @@
 void chop(Paintdata& data)
 {
     QColor buffer = data.painter->pen().color();
-
     std::vector<line_info> line_data = form_info(data);
     size_t size = std::min(line_data.size(), data.lines.size());
 
     for (size_t i = 0; i < size; ++i) {
-
         QLine current_line(data.lines[i]);
         if (line_data[i].fully_visible()) {
             data.painter->setPen(QColor("red"));
@@ -91,7 +89,7 @@ void chop(Paintdata& data)
                 }
 
             }
-            if (crossed) { //линия пересекла окно
+            if (crossed && result.size() >= 2) { //линия пересекла окно
                 QLine line(result[0], result[1]);
                 line_info info(line, data.rectangle);
                 if (info.fully_visible()) {
@@ -104,18 +102,18 @@ void chop(Paintdata& data)
                         if ((current_line.x1() < current_line.x2() && line.x1() < line.x2()) ||
                                (current_line.x1() > current_line.x2() && line.x1() > line.x2() )){
                             if (current_line.p1() != line.p1()) {
-                                data.painter->drawLine(QLine(current_line.p1(), line.p1()));
+                                data.painter->drawLine(current_line.p1(), line.p1());
                             }
                             if (current_line.p2() != line.p2()) {
-                                data.painter->drawLine(QLine(current_line.p2(), line.p2()));
+                                data.painter->drawLine(current_line.p2(), line.p2());
                             }
                         }
                         else {
                             if (current_line.p1() != line.p2()) {
-                                data.painter->drawLine(QLine(current_line.p1(), line.p2()));
+                                data.painter->drawLine(current_line.p1(), line.p2());
                             }
                             if (current_line.p2() != line.p1()) {
-                                data.painter->drawLine(QLine(current_line.p2(), line.p1()));
+                                data.painter->drawLine(current_line.p2(), line.p1());
                             }
                         }
                     }
@@ -123,18 +121,18 @@ void chop(Paintdata& data)
                         if ((current_line.y1() < current_line.y2() && line.y1() < line.y2()) ||
                                 (current_line.y1() > current_line.y2() && line.y1() > line.y2())) {
                             if (current_line.p1() != line.p1()) {
-                                data.painter->drawLine(QLine(current_line.p1(), line.p1()));
+                                data.painter->drawLine(current_line.p1(), line.p1());
                             }
                             if (current_line.p2() != line.p2()) {
-                                data.painter->drawLine(QLine(current_line.p2(), line.p2()));
+                                data.painter->drawLine(current_line.p2(), line.p2());
                             }
                         }
                         else {
                             if (current_line.p1() != line.p2()) {
-                                data.painter->drawLine(QLine(current_line.p1(), line.p2()));
+                                data.painter->drawLine(current_line.p1(), line.p2());
                             }
                             if (current_line.p2() != line.p1()) {
-                                data.painter->drawLine(QLine(current_line.p2(), line.p1()));
+                                data.painter->drawLine(current_line.p2(), line.p1());
                             }
                         }
                     }
@@ -151,7 +149,6 @@ void chop(Paintdata& data)
         }
     }
     data.painter->setPen(buffer);
-
 }
 
 std::vector<line_info> form_info(Paintdata& data)
