@@ -3,6 +3,7 @@
 
 #include "paintdata.h"
 #include <vector>
+#include <QApplication>
 
 const unsigned char LEFT = 0x01;
 const unsigned char RIGHT = 0x02;

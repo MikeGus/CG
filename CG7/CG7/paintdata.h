@@ -15,6 +15,7 @@ struct Paintdata
 
     bool final;
     QLine buffer_line;
+    QRect buffer_rectangle;
     QRect rectangle;
 
     bool line_input;

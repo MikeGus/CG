@@ -25,10 +25,12 @@ void Paintdevice::mousePressEvent(QMouseEvent *event)
             }
             data.lines.push_back(data.buffer_line);
 
-            QColor bufcolor = data.painter->pen().color();
-            data.painter->setPen(QColor("black"));
-            data.painter->drawLine(data.buffer_line);
-            data.painter->setPen(bufcolor);
+            if (!data.is_rect) {
+                QColor bufcolor = data.painter->pen().color();
+                data.painter->setPen(QColor("blue"));
+                data.painter->drawLine(data.buffer_line);
+                data.painter->setPen(bufcolor);
+            }
 
             data.final = false;
 
@@ -36,47 +38,48 @@ void Paintdevice::mousePressEvent(QMouseEvent *event)
     }
     else {
         if (!data.final_rect) {
-            data.rectangle.setBottomLeft(event->pos());
+            data.buffer_rectangle.setBottomLeft(event->pos());
             data.final_rect = true;
         }
         else {
             QPoint p = event->pos();
 
-            if (data.rectangle.bottomLeft().x() < p.x()) {
-                if (data.rectangle.bottomLeft().y() < p.y()) {
-                    data.rectangle.setTopRight(p);
+            if (data.buffer_rectangle.bottomLeft().x() < p.x()) {
+                if (data.buffer_rectangle.bottomLeft().y() < p.y()) {
+                    data.buffer_rectangle.setTopRight(p);
                 }
                 else {
-                    data.rectangle.setTopLeft(data.rectangle.bottomLeft());
-                    data.rectangle.setBottomRight(p);
+                    data.buffer_rectangle.setTopLeft(data.buffer_rectangle.bottomLeft());
+                    data.buffer_rectangle.setBottomRight(p);
                 }
             }
             else {
-                if (data.rectangle.bottomLeft().y() < p.y()) {
-                    data.rectangle.setBottomRight(data.rectangle.bottomLeft());
-                    data.rectangle.setTopLeft(p);
+                if (data.buffer_rectangle.bottomLeft().y() < p.y()) {
+                    data.buffer_rectangle.setBottomRight(data.buffer_rectangle.bottomLeft());
+                    data.buffer_rectangle.setTopLeft(p);
                 }
                 else {
-                    data.rectangle.setTopRight(data.rectangle.bottomLeft());
-                    data.rectangle.setBottomLeft(p);
+                    data.buffer_rectangle.setTopRight(data.buffer_rectangle.bottomLeft());
+                    data.buffer_rectangle.setBottomLeft(p);
                 }
             }
             data.final_rect = false;
             data.is_rect = true;
-
-            QColor bufcolor = data.painter->pen().color();
-            data.painter->setPen(QColor("black"));
-
-            data.pixmap->fill();
-            data.painter->drawRect(data.rectangle);
-
-            data.painter->setPen(bufcolor);
+            data.rectangle = data.buffer_rectangle;
         }
     }
 
+
     if (data.is_rect && !data.final_rect) {
+        QColor bufcolor = data.painter->pen().color();
+
+        data.pixmap->fill();
+        data.painter->setPen(QColor("black"));
+        data.painter->drawRect(data.rectangle);
+        data.painter->setPen(bufcolor);
         chop(data);
     }
+
     clear();
     addPixmap(*data.pixmap);
 }
