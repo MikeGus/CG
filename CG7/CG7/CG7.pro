@@ -17,6 +17,8 @@ SOURCES += main.cpp\
     paintdevice.cpp
 
 HEADERS  += mainwindow.h \
-    paintdevice.h
+    paintdevice.h \
+    paintdata.h \
+    myqgraphicsview.h
 
 FORMS    += mainwindow.ui
