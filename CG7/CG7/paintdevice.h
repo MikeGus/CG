@@ -7,6 +7,7 @@
 #include <QRectF>
 #include <QDebug>
 #include "paintdata.h"
+#include "chop.h"
 
 
 class Paintdevice : public QGraphicsScene

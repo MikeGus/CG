@@ -33,6 +33,7 @@ void MainWindow::on_radioRect_toggled(bool checked)
     if (checked) {
         scene->data.line_input = false;
         scene->data.final_rect = false;
+        scene->data.final = false;
     }
 }
 
@@ -41,6 +42,7 @@ void MainWindow::on_radioLines_toggled(bool checked)
     if (checked) {
         scene->data.line_input = true;
         scene->data.final = false;
+        scene->data.final_rect = false;
     }
 }
 
@@ -111,6 +113,11 @@ void MainWindow::on_btnDraw_clicked()
     for (auto line : scene->data.lines) {
         scene->data.painter->drawLine(line);
     }
+
+    if (scene->data.is_rect) {
+        chop(scene->data);
+    }
+
     scene->addPixmap(*(scene->data.pixmap));
 
     scene->data.painter->setPen(QColor(bufcolor));

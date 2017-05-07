@@ -5,6 +5,7 @@
 #include "paintdevice.h"
 #include <QDebug>
 #include "myqgraphicsview.h"
+#include "chop.h"
 
 namespace Ui {
 class MainWindow;

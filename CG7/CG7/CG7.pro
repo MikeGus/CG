@@ -14,11 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    paintdevice.cpp
+    paintdevice.cpp \
+    chop.cpp
 
 HEADERS  += mainwindow.h \
     paintdevice.h \
     paintdata.h \
-    myqgraphicsview.h
+    myqgraphicsview.h \
+    chop.h
 
 FORMS    += mainwindow.ui

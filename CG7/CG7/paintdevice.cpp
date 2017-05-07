@@ -10,7 +10,6 @@ void Paintdevice::mousePressEvent(QMouseEvent *event)
         else {
             if (!(event->modifiers() & Qt::ShiftModifier)) {
                 data.buffer_line.setP2(event->pos());
-                data.lines.push_back(data.buffer_line);
             }
             else {
                 qint32 x = event->pos().x();
@@ -24,17 +23,15 @@ void Paintdevice::mousePressEvent(QMouseEvent *event)
                     data.buffer_line.setP2(QPoint(data.buffer_line.p1().x(), y));
                 }
             }
+            data.lines.push_back(data.buffer_line);
 
             QColor bufcolor = data.painter->pen().color();
             data.painter->setPen(QColor("black"));
-
             data.painter->drawLine(data.buffer_line);
-            data.final = false;
-
             data.painter->setPen(bufcolor);
 
-            clear();
-            addPixmap(*data.pixmap);
+            data.final = false;
+
         }
     }
     else {
@@ -73,16 +70,15 @@ void Paintdevice::mousePressEvent(QMouseEvent *event)
             data.pixmap->fill();
             data.painter->drawRect(data.rectangle);
 
-            for (auto line : data.lines) {
-                data.painter->drawLine(line);
-            }
-
             data.painter->setPen(bufcolor);
-
-            clear();
-            addPixmap(*data.pixmap);
         }
     }
+
+    if (data.is_rect && !data.final_rect) {
+        chop(data);
+    }
+    clear();
+    addPixmap(*data.pixmap);
 }
 
 void Paintdevice::del_data()
