@@ -8,3 +8,4 @@
 !*.pro
 !*.pro.user
 !*.ui
+build-*
