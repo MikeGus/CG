@@ -2,18 +2,24 @@
 
 void chop(Paintdata& data)
 {
-    data.painter->setPen(QColor("blue"));
+//    data.painter->setPen(QColor("blue"));
+//    for (auto& line: data.lines) {
+//        data.painter->drawLine(line);
+//    }
+
     for (auto& line: data.lines) {
-        data.painter->drawLine(line);
+        chop_line(data.splitter, line, data);
     }
 
+    data.scene->clear();
+    data.scene->addPixmap(*data.pixmap);
 
 }
 
 //вектор нормали
 QPoint norm(QLine &line)
 {
-    QPoint p(-line.dy(), line.dx());
+    QPoint p(line.dy(), -line.dx());
     return p;
 }
 
@@ -42,17 +48,74 @@ int get_side(QPoint& point, QLine& edge)
     return scalar(normal, vec);
 }
 
-double get_t(QLine& line, QLine& edge)
+double get_t(int Qi, int Pi)
 {
-   QPoint normal = norm(edge);
-   QLine check_line(edge.p1(), line.p2());
-
-   QPoint check_vector(vector(check_line));
-   QPoint line_vector(vector(line));
-
-   int top = - scalar(normal, check_vector);
-   int bottom = scalar(normal, line_vector);
-
-   return ((double) top) / bottom;
+   return -((double)Qi / Pi);
 }
 
+
+void chop_line(QVector<QPoint>& splitter, QLine& line, Paintdata& data)
+{
+    splitter.push_back(*splitter.begin());
+
+    QPoint vector_line = vector(line); // вектор, определяющие направление отрезка
+
+    double t0 = 0; //начало и конец отсекаемого отрезка
+    double t1 = 1;
+
+//    bool inside = false;
+
+    // цикл по всем ребрам отрезка
+    auto it_first = splitter.begin();
+    for (auto it_second = it_first + 1; it_second != splitter.end(); ++it_second, ++it_first) {
+        QLine edge(*it_first, *it_second); // ребро
+        QLine check_line(edge.p1(), line.p1());
+
+        QPoint check_vec = vector(check_line);
+        QPoint normal = norm(edge); // внутренняя нормаль к ребру
+
+        int Qi = scalar(check_vec, normal); // скалярное произведения вектора из начала ребра в начало отрезка и нормали
+        int Pi = scalar(vector_line, normal); // скалярное произведение вектора отрезка и нормали
+
+        //если отрезок не параллелен ребру
+        if (Pi != 0) {
+            double t = get_t(Qi, Pi);
+            if (Pi < 0) { // прямая идет изнутри наружу
+                if (t < t1) {
+                    t1 = t;
+                }
+            }
+            else { // прямая идет внутрь снаружи
+                if (t > t0) {
+                    t0 = t;
+                }
+            }
+        }
+        else {
+            //если отрезок параллелен ребру и за границами окна
+            if (Qi < 0) {
+                data.painter->setPen("blue");
+                data.painter->drawLine(line);
+                return;
+            }
+            //иначе продолжаем поиск
+        }
+    }
+
+    data.painter->setPen("blue");
+    if (t1 < t0) {
+        data.painter->drawLine(line);
+    }
+    else {
+        QPoint start(line.p1().x() + t0 * line.dx() + 0.5, line.p1().y() + t0 * line.dy() + 0.5);
+        QPoint end(line.p1().x() + t1 * line.dx() + 0.5, line.p1().y() + t1 * line.dy() + 0.5);
+
+        data.painter->drawLine(line.p1(), start);
+        data.painter->drawLine(end, line.p2());
+
+        data.painter->setPen(QColor("red"));
+        data.painter->drawLine(start, end);
+    }
+
+    splitter.pop_back();
+}

@@ -118,17 +118,17 @@ void MainWindow::on_btnDraw_clicked()
             }
         }
     }
-    else if (ui->radioRect->isChecked() && list.length() >= 6) {
+    else if (ui->radioRect->isChecked() && list.length() > 5) {
         QPoint point;
         scene->data.splitter.clear();
         scene->data.is_rect = true;
         for (int i = 0; i < list.length(); ++i) {
             if (i % 2) {
-                point.setX(list[i].toInt() + 0.5);
-            }
-            else {
                 point.setY(list[i].toInt() + 0.5);
                 scene->data.splitter.push_back(point);
+            }
+            else {
+                point.setX(list[i].toInt() + 0.5);
             }
         }
         scene->data.pixmap->fill();

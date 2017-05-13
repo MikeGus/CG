@@ -43,8 +43,10 @@ void Paintdevice::mousePressEvent(QMouseEvent *event)
         if (event->buttons() & Qt::RightButton) {
             if (data.splitter.size() > 2) {
                 data.is_rect = true;
+                data.pixmap->fill();
                 data.painter->setPen(QColor("black"));
-                data.painter->drawLine(*data.splitter.begin(), *data.splitter.rbegin());
+                data.painter->drawPolygon(data.splitter);
+                chop(data);
                 data.scene->clear();
                 data.scene->addPixmap(*data.pixmap);
             }
