@@ -14,80 +14,113 @@ void split(Paintdata& data)
     QVector<QLinkedList<QPoint>> figure_list = form_lists(data.fig);
     QVector<QLinkedList<QPoint>> split_list = form_lists(data.split);
 
-    //отрисовка разделителя
-    data.painter->setPen(QColor("black"));
-    for (auto list : split_list) {
-        QVector<QPoint> vec;
-        for (auto it = list.begin(); it != list.end(); ++it) {
-            vec.push_back(*it);
-        }
-        QPolygon buffer(vec);
-        data.painter->drawPolygon(buffer);
-    }
-
     QLinkedList<QPoint> point_in;
     QLinkedList<QPoint> point_out;
 
     //вычисление точек пересечения и внесение их в списки
     fill_vectors(split_list, figure_list, point_in, point_out);
 
-//    for (auto& list : figure_list) {
-//        insert_crossing(list, point_in, point_out);
-//    }
 
-//    for (auto& list : split_list) {
-//        insert_crossing(list, point_in, point_out);
-//    }
-
-//    //просмотр ребер и закраска
-//    for (auto& list : figure_list) {
-//        data.painter->setPen("blue");
-//        bool is_in = false;
-//        for (auto& p : list) {
-//            if (in_list(point_in, p)) {
-//                break;
-//            }
-//            if (in_list(point_out, p)) {
-//                data.painter->setPen("red");
-//                is_in = true;
-//                break;
-//            }
-//        }
-//        auto it_first = list.begin();
-//        for (auto it_second = it_first + 1; it_second != list.end(); ++it_second, ++it_first) {
-//            data.painter->drawLine(*it_first, *it_second);
-//            if (!is_in) {
-//                if (in_list(point_in, *it_second)) {
-//                    is_in = true;
-//                    data.painter->setPen("red");
-//                }
-//            }
-//            else {
-//                if (in_list(point_out, *it_second)) {
-//                    is_in = false;
-//                    data.painter->setPen("blue");
-//                }
-//            }
-//        }
-//    }
-
-    data.painter->setPen(QColor("blue"));
-    for (auto list : figure_list) {
-        QVector<QPoint> vec;
-        for (auto it = list.begin(); it != list.end(); ++it) {
-            vec.push_back(*it);
+    //просмотр ребер и закраска
+    for (auto& list : figure_list) {
+        int visible = check_visibility(list, split_list, point_in, point_out);
+        if (visible < 0) {
+            data.painter->setPen("blue");
+            auto it_1(list.begin());
+            for (auto it_2 = it_1 + 1; it_2 != list.end(); ++it_1, ++it_2) {
+                data.painter->drawLine(*it_1, *it_2);
+            }
+            continue;
         }
-        QPolygon buffer(vec);
-        data.painter->drawPolygon(buffer);
+        else if (visible > 0) {
+            data.painter->setPen("red");
+            auto it_1(list.begin());
+            for (auto it_2 = it_1 + 1; it_2 != list.end(); ++it_1, ++it_2) {
+                data.painter->drawLine(*it_1, *it_2);
+            }
+            continue;
+        }
+
+        data.painter->setPen("blue");
+        bool is_in = false;
+        for (auto& p : list) {
+            if (in_list(point_in, p)) {
+                break;
+            }
+            if (in_list(point_out, p)) {
+                data.painter->setPen("red");
+                is_in = true;
+                break;
+            }
+        }
+        auto it_first = list.begin();
+        for (auto it_second = it_first + 1; it_second != list.end(); ++it_second, ++it_first) {
+            data.painter->drawLine(*it_first, *it_second);
+            if (!is_in) {
+                if (in_list(point_in, *it_second)) {
+                    is_in = true;
+                    data.painter->setPen("red");
+                }
+            }
+            else {
+                if (in_list(point_out, *it_second)) {
+                    is_in = false;
+                    data.painter->setPen("blue");
+                }
+            }
+        }
     }
 
-    data.painter->setPen("orange");
-    for (auto p : point_in) {
-        data.painter->drawEllipse(p, 3, 3);
-    }
-    data.painter->setPen("green");
-    for (auto p : point_out) {
-        data.painter->drawEllipse(p, 3, 3);
+    //просмотр ребер и закраска
+    for (auto& list : split_list) {
+
+        int visible = check_visibility(list, figure_list, point_in, point_out);
+        if (visible < 0) {
+            data.painter->setPen("red");
+            auto it_1(list.begin());
+            for (auto it_2 = it_1 + 1; it_2 != list.end(); ++it_1, ++it_2) {
+                data.painter->drawLine(*it_1, *it_2);
+            }
+            continue;
+        }
+        else if (visible > 0) {
+            data.painter->setPen("black");
+            auto it_1(list.begin());
+            for (auto it_2 = it_1 + 1; it_2 != list.end(); ++it_1, ++it_2) {
+                data.painter->drawLine(*it_1, *it_2);
+            }
+            continue;
+        }
+
+
+        data.painter->setPen("black");
+        bool is_in = false;
+        for (auto& p : list) {
+            if (in_list(point_in, p)) {
+                data.painter->setPen("red");
+                break;
+            }
+            if (in_list(point_out, p)) {
+                is_in = true;
+                break;
+            }
+        }
+        auto it_first = list.begin();
+        for (auto it_second = it_first + 1; it_second != list.end(); ++it_second, ++it_first) {
+            data.painter->drawLine(*it_first, *it_second);
+            if (!is_in) {
+                if (in_list(point_in, *it_second)) {
+                    is_in = true;
+                    data.painter->setPen("black");
+                }
+            }
+            else {
+                if (in_list(point_out, *it_second)) {
+                    is_in = false;
+                    data.painter->setPen("red");
+                }
+            }
+        }
     }
 
     data.scene->addPixmap(*data.pixmap);
@@ -168,6 +201,7 @@ void fill_vectors(QVector<QLinkedList<QPoint>>& split_list, QVector<QLinkedList<
     for (QLinkedList<QPoint>& fig : figure_list) {
         //по всем разделителям
         for (QLinkedList<QPoint>& spl : split_list) {
+            QVector<Trio> cr_vec;
             auto prev_fig = fig.begin();
             //смотрим все ребра фигуры
             for (auto next_fig = prev_fig + 1; next_fig != fig.end(); ++prev_fig, ++next_fig) {
@@ -188,9 +222,12 @@ void fill_vectors(QVector<QLinkedList<QPoint>>& split_list, QVector<QLinkedList<
                         else {
                             point_out.push_back(cross);
                         }
+                        Trio buffer_trio(cross, next_fig, next_spl);
+                        cr_vec.push_back(buffer_trio);
                     }
                 }
             }
+            insert_crossing(spl, fig, cr_vec);
         }
     }
 }
@@ -224,26 +261,102 @@ bool in_list(QLinkedList<QPoint>& list, QPoint& p)
     return false;
 }
 
-void insert_crossing(QLinkedList<QPoint>& list, QLinkedList<QPoint>& in, QLinkedList<QPoint>& out)
+//сортировка точек по удалению от cmp
+void sort_p(QVector<QPoint>& vec, QPoint& cmp)
 {
-    for (auto iter = in.begin(); iter != in.end(); ++iter) {
-        auto iter_1 = list.begin();
-        for (auto iter_2 = iter_1 + 1; iter_2 != list.end(); ++iter_1, ++iter_2) {
-            if (in_line(*iter_1, *iter_2, *iter)) {
-                list.insert(iter_2, *iter);
-                qDebug() << "in";
-                break;
+    for (int i = 0; i < vec.size(); ++i) {
+        for (int j = i + 1; j < vec.size(); ++j) {
+            int r1 = (vec[i].x() - cmp.x()) * (vec[i].x() - cmp.x()) + (vec[i].y() - cmp.y()) * (vec[i].y() - cmp.y());
+            int r2 = (vec[j].x() - cmp.x()) * (vec[j].x() - cmp.x()) + (vec[j].y() - cmp.y()) * (vec[j].y() - cmp.y());
+            if (r2 > r1) {
+                QPoint buf(vec[i]);
+                vec[i] = vec[j];
+                vec[j] = buf;
             }
         }
     }
-    for (auto iter = out.begin(); iter != out.end(); ++iter) {
-        auto iter_1 = list.begin();
-        for (auto iter_2 = iter_1 + 1; iter_2 != list.end(); ++iter_1, ++iter_2) {
-            if (in_line(*iter_1, *iter_2, *iter)) {
-                list.insert(iter_2, *iter);
-                qDebug() << "out";
-                break;
+}
+
+//корректная вставка точек пересечения многоугольников
+void insert_crossing(QLinkedList<QPoint>& list_spl, QLinkedList<QPoint>& list_fig, QVector<Trio>& trio)
+{
+    QVector<QLinkedList<QPoint>::iterator> vec_spl;
+    QVector<QLinkedList<QPoint>::iterator> vec_fig;
+
+    for (Trio& data : trio) {
+        if (vec_spl.indexOf(data.spl) == -1) {
+            vec_spl.push_back(data.spl);
+        }
+        if (vec_fig.indexOf(data.fig) == -1) {
+            vec_fig.push_back(data.fig);
+        }
+    }
+
+    for (QLinkedList<QPoint>::iterator& p : vec_fig) {
+        QVector<QPoint> insert_p;
+        for (Trio& data : trio) {
+            if (data.fig == p) {
+                insert_p.push_back(data.p);
+            }
+        }
+        sort_p(insert_p, *p);
+
+        for (QPoint& point : insert_p) {
+            list_fig.insert(p, point);
+        }
+    }
+
+    for (QLinkedList<QPoint>::iterator& p : vec_spl) {
+        QVector<QPoint> insert_p;
+        for (Trio& data : trio) {
+            if (data.spl == p) {
+                insert_p.push_back(data.p);
+            }
+        }
+        sort_p(insert_p, *p);
+
+        for (QPoint& point : insert_p) {
+            list_spl.insert(p, point);
+        }
+    }
+}
+
+QPoint norm(QPoint& p1, QPoint& p2)
+{
+    QPoint result;
+    result.setX(p1.y() - p2.y());
+    result.setY(p2.x() - p1.x());
+
+    return result;
+}
+
+int scalar(QPoint& vec_1, QPoint& vec_2)
+{
+    return vec_1.x() * vec_2.x() + vec_1.y() * vec_2.y();
+}
+
+//0 - cross, 1 - visible, -1 - invisible
+int check_visibility(QLinkedList<QPoint>& list_1, QVector<QLinkedList<QPoint>>& list_of_list_2, QLinkedList<QPoint>& list_in,\
+                     QLinkedList<QPoint>& list_out)
+{
+    for (auto& point : list_1) {
+        if ((in_list(list_in, point)) || (in_list(list_out, point))) {
+            return 0;
+        }
+    }
+
+    QPoint p1(*list_1.begin());
+
+    for (auto& list_2 : list_of_list_2) {
+        auto it_1 = list_2.begin();
+        for (auto it_2 = it_1 + 1; it_2 != list_2.end(); ++it_1, ++it_2) {
+            QPoint n(norm(*it_1, *it_2));
+            QPoint v(p1.x() - (*it_1).x(), p1.y() - (*it_1).y());
+            if (scalar(n, v) < 0) {
+                return -1;
             }
         }
     }
+
+    return 1;
 }
