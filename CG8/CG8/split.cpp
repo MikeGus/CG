@@ -353,15 +353,27 @@ int check_visibility(QLinkedList<QPoint>& list_1, QVector<QLinkedList<QPoint>>& 
     }
 
     QPoint p1(*list_1.begin());
+    QPoint p2(p1);
+    p2.setY(0);
+
+    QPoint b;
 
     auto list_2 = *list_of_list_2.begin();
     auto it_1 = list_2.begin();
+    unsigned cross = 0;
     for (auto it_2 = it_1 + 1; it_2 != list_2.end(); ++it_1, ++it_2) {
-        QPoint n(norm(*it_1, *it_2));
-        QPoint v(p1.x() - (*it_1).x(), p1.y() - (*it_1).y());
-        if (scalar(n, v) > 0) {
-            return -1;
+//        QPoint n(norm(*it_1, *it_2));
+//        QPoint v(p1.x() - (*it_1).x(), p1.y() - (*it_1).y());
+//        if (scalar(n, v) > 0) {
+//            return -1;
+//        }
+        if (crossing(p1, p2, *it_1, *it_2, b)) {
+            cross++;
         }
+    }
+
+    if (cross % 2 == 0) {
+        return -1;
     }
 
     bool found = false;
@@ -369,14 +381,13 @@ int check_visibility(QLinkedList<QPoint>& list_1, QVector<QLinkedList<QPoint>>& 
         found = false;
         list_2 = *it;
         auto it_1 = list_2.rbegin();
+        cross = 0;
         for (auto it_2 = it_1 + 1; it_2 != list_2.rend(); ++it_1, ++it_2) {
-            QPoint n(norm(*it_1, *it_2));
-            QPoint v(p1.x() - (*it_1).x(), p1.y() - (*it_1).y());
-            if (scalar(n, v) > 0) {
-                found = true;
+            if (crossing(p1, p2, *it_1, *it_2, b)) {
+                cross++;
             }
         }
-        if (!found) {
+        if (cross % 2 != 0) {
             return -1;
         }
     }

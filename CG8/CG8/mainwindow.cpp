@@ -12,7 +12,8 @@ void MainWindow::showEvent(QShowEvent* event)
 {
     scene = new Paintdevice(ui->graphicsView->rect(), ui->graphicsView);
     ui->graphicsView->setScene(scene);
-
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scene->data.pixmap = new QPixmap(scene->width(), scene->height());
     scene->data.pixmap->fill();
 
