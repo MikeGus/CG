@@ -24,6 +24,10 @@ void split(Paintdata& data)
     //просмотр ребер и закраска
     for (auto& list : figure_list) {
         int visible = check_visibility(list, split_list, point_in, point_out);
+        if ((*split_list.begin()).size() == 0) {
+            visible = -1;
+        }
+
         if (visible < 0) {
             data.painter->setPen("blue");
             auto it_1(list.begin());
@@ -75,8 +79,11 @@ void split(Paintdata& data)
     for (auto& list : split_list) {
 
         int visible = check_visibility(list, figure_list, point_in, point_out);
+        if ((*figure_list.begin()).size() == 0) {
+            visible = -1;
+        }
         if (visible < 0) {
-            data.painter->setPen("red");
+            data.painter->setPen("black");
             auto it_1(list.begin());
             for (auto it_2 = it_1 + 1; it_2 != list.end(); ++it_1, ++it_2) {
                 data.painter->drawLine(*it_1, *it_2);
@@ -84,7 +91,7 @@ void split(Paintdata& data)
             continue;
         }
         else if (visible > 0) {
-            data.painter->setPen("black");
+            data.painter->setPen("red");
             auto it_1(list.begin());
             for (auto it_2 = it_1 + 1; it_2 != list.end(); ++it_1, ++it_2) {
                 data.painter->drawLine(*it_1, *it_2);
@@ -347,14 +354,30 @@ int check_visibility(QLinkedList<QPoint>& list_1, QVector<QLinkedList<QPoint>>& 
 
     QPoint p1(*list_1.begin());
 
-    for (auto& list_2 : list_of_list_2) {
-        auto it_1 = list_2.begin();
-        for (auto it_2 = it_1 + 1; it_2 != list_2.end(); ++it_1, ++it_2) {
+    auto list_2 = *list_of_list_2.begin();
+    auto it_1 = list_2.begin();
+    for (auto it_2 = it_1 + 1; it_2 != list_2.end(); ++it_1, ++it_2) {
+        QPoint n(norm(*it_1, *it_2));
+        QPoint v(p1.x() - (*it_1).x(), p1.y() - (*it_1).y());
+        if (scalar(n, v) > 0) {
+            return -1;
+        }
+    }
+
+    bool found = false;
+    for (auto it = list_of_list_2.begin() + 1; it != list_of_list_2.end(); ++it) {
+        found = false;
+        list_2 = *it;
+        auto it_1 = list_2.rbegin();
+        for (auto it_2 = it_1 + 1; it_2 != list_2.rend(); ++it_1, ++it_2) {
             QPoint n(norm(*it_1, *it_2));
             QPoint v(p1.x() - (*it_1).x(), p1.y() - (*it_1).y());
-            if (scalar(n, v) < 0) {
-                return -1;
+            if (scalar(n, v) > 0) {
+                found = true;
             }
+        }
+        if (!found) {
+            return -1;
         }
     }
 
