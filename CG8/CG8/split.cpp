@@ -368,7 +368,9 @@ int check_visibility(QLinkedList<QPoint>& list_1, QVector<QLinkedList<QPoint>>& 
 //            return -1;
 //        }
         if (crossing(p1, p2, *it_1, *it_2, b)) {
-            cross++;
+            if (b!= p2) {
+                cross++;
+            }
         }
     }
 
